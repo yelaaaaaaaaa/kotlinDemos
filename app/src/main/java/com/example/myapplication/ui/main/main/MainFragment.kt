@@ -10,6 +10,7 @@ import com.example.myapplication.App
 import com.example.myapplication.R
 import com.example.myapplication.base.BaseFragment
 import com.example.myapplication.ipcclient.IpcClientActivity
+import com.example.myapplication.room.RoomDataBaseActivity
 import com.example.myapplication.ui.main.eventbustest.activity.EventBusMainActivity
 import com.example.myapplication.ui.main.home.HomeFragment
 import com.example.myapplication.ui.main.navigation.NavigationFragment
@@ -43,7 +44,7 @@ class MainFragment :BaseFragment(){
     override fun initView() {
         initViewPager()
         addFab.setOnClickListener { v: View? ->
-            val intent = Intent(context, EventBusMainActivity::class.java)
+            val intent = Intent(context, RoomDataBaseActivity::class.java)
            startActivity(intent)
         }
     }

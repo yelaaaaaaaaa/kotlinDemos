@@ -32,6 +32,7 @@
         <activity android:name=".ui.main.eventbustest.activity.TestEventBusActivity" />
         <activity android:name=".ui.main.eventbustest.activity.TestExceptionActivity" />
         <activity android:name=".ui.main.eventbustest.activity.TestStickyActivity" />
+        <activity android:name=".room.RoomDataBaseActivity" />
 
         <service android:name=".ipcl.AidlService">
             <intent-filter>
