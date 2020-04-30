@@ -47,11 +47,13 @@ class SquareFragment : BaseVmFragment<ArticleViewModel>(){
                     squareAdapter.run {
                         if (it.isRefresh) replaceData(list.datas)
                         else addData(list.datas)
-                        setEnableLoadMore(true)
-                        loadMoreComplete()
+                        loadMoreModule.isEnableLoadMore = true
+                       // setEnableLoadMore(true)
+                        loadMoreModule.loadMoreComplete()
+//                        loadMoreComplete()
                     }
                 }
-                if (it.showEnd) squareAdapter.loadMoreEnd()
+                if (it.showEnd) squareAdapter.loadMoreModule.loadMoreEnd()
 
                 it.showError?.let { message ->
                     activity?.toast(if (message.isBlank()) "网络异常" else message)
@@ -65,9 +67,10 @@ class SquareFragment : BaseVmFragment<ArticleViewModel>(){
                 val bundle = bundleOf(BrowserActivity.URL to squareAdapter.data[position].link)
                 Navigation.findNavController(homeRecycleView).navigate(R.id.action_tab_to_browser,bundle)
             }
-            setLoadMoreView(CustomLoadMoreView())
-            setOnLoadMoreListener({ loadMore() }, homeRecycleView)
-
+            loadMoreModule.loadMoreView = CustomLoadMoreView()
+//            setLoadMoreView(CustomLoadMoreView())
+//            setOnLoadMoreListener({ loadMore() }, homeRecycleView)
+            loadMoreModule.setOnLoadMoreListener {loadMore()}
         }
         homeRecycleView.run{
             layoutManager = LinearLayoutManager(activity)

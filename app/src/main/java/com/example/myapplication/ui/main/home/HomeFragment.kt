@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.example.myapplication.R
 import com.example.myapplication.adapter.HomeArticleAdapter
 import com.example.myapplication.base.BaseFragment
@@ -74,8 +75,10 @@ class HomeFragment :BaseVmFragment<ArticleViewModel>(){
             onItemChildClickListener = this@HomeFragment.onItemChildClickListener
             if (headerLayoutCount > 0) removeAllHeaderView()
             addHeaderView(banner)
-            setLoadMoreView(CustomLoadMoreView())
-            setOnLoadMoreListener({loadMore()},homeRecycleView)
+            loadMoreModule.loadMoreView = CustomLoadMoreView()
+           // setLoadMoreView(CustomLoadMoreView())
+           // setOnLoadMoreListener({loadMore()},homeRecycleView)
+            loadMoreModule.setOnLoadMoreListener { loadMore() }
         }
         homeRecycleView.run{
             adapter = homeArticleAdapter
@@ -86,7 +89,7 @@ class HomeFragment :BaseVmFragment<ArticleViewModel>(){
         mViewModel.getHomeArticleList(false)
     }
 
-    private val onItemChildClickListener = BaseQuickAdapter.OnItemChildClickListener { _, view, position ->
+    private var onItemChildClickListener = homeArticleAdapter.setOnItemChildClickListener() { _, view, position ->
         when (view.id) {
             R.id.articleStar -> {
                 if (isLogin) {
@@ -107,7 +110,8 @@ class HomeFragment :BaseVmFragment<ArticleViewModel>(){
         refresh()
     }
     fun refresh() {
-        homeArticleAdapter.setEnableLoadMore(false)
+        homeArticleAdapter.loadMoreModule.isEnableLoadMore = false
+       // homeArticleAdapter.setEnableLoadMore(false)
         mViewModel.getHomeArticleList(true)
     }
     override fun startObserve() {
@@ -116,17 +120,22 @@ class HomeFragment :BaseVmFragment<ArticleViewModel>(){
                 it?.let{setBanner(it)}
             })
             uiState.observe(this@HomeFragment, Observer { it->
-                homeRefreshLayout.isRefreshing = it.isRefresh
+               // homeRefreshLayout.isRefreshing = it.isRefresh
 
                 it.showSuccess?.let { list ->
                     homeArticleAdapter.run {
-                        if (it.isRefresh) replaceData(list.datas)
+                        if (it.isRefresh) {
+                            replaceData(list.datas)
+                            homeRefreshLayout.isRefreshing = false
+                        }
                         else addData(list.datas)
-                        setEnableLoadMore(true)
-                        loadMoreComplete()
+                        loadMoreModule.isEnableLoadMore = true
+                      //  setEnableLoadMore(true)
+                        loadMoreModule.loadMoreComplete()
+                      //  loadMoreComplete()
                     }
                 }
-                if (it.showEnd) homeArticleAdapter.loadMoreEnd()
+                if (it.showEnd) homeArticleAdapter.loadMoreModule.loadMoreEnd()
 
                 it.showError?.let { message ->
                     activity?.toast(if (message.isBlank()) "网络异常" else message)
