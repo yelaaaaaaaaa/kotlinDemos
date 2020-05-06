@@ -25,8 +25,8 @@ import com.example.myapplication.view.SpaceItemDecoration
 import com.youth.banner.BannerConfig
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_new_home.*
-import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import splitties.toast.toast
 
 class HomeFragment :BaseVmFragment<ArticleViewModel>(){
     private val mViewModel:ArticleViewModel by viewModel()

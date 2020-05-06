@@ -14,8 +14,8 @@ import com.example.myapplication.ui.main.BrowserActivity
 import com.example.myapplication.view.CustomLoadMoreView
 import com.example.myapplication.view.SpaceItemDecoration
 import kotlinx.android.synthetic.main.fragment_new_home.*
-import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import splitties.toast.toast
 
 class SquareFragment : BaseVmFragment<ArticleViewModel>(){
     private val mViewModel:ArticleViewModel by viewModel()
@@ -41,6 +41,7 @@ class SquareFragment : BaseVmFragment<ArticleViewModel>(){
     override fun startObserve() {
         mViewModel.apply {
             uiState.observe(this@SquareFragment, Observer { it->
+
                 homeRefreshLayout.isRefreshing = it.isRefresh
 
                 it.showSuccess?.let { list ->
