@@ -46,7 +46,7 @@ class SquareFragment : BaseVmFragment<ArticleViewModel>(){
 
                 it.showSuccess?.let { list ->
                     squareAdapter.run {
-                        if (it.isRefresh) replaceData(list.datas)
+                        if (it.isRefresh) setList(list.datas)
                         else addData(list.datas)
                         loadMoreModule.isEnableLoadMore = true
                        // setEnableLoadMore(true)

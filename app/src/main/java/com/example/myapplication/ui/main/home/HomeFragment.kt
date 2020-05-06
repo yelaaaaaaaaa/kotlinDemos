@@ -72,7 +72,6 @@ class HomeFragment :BaseVmFragment<ArticleViewModel>(){
                 val bundle = bundleOf(BrowserActivity.URL to homeArticleAdapter.data[position].link)
                 Navigation.findNavController(homeRecycleView).navigate(R.id.action_tab_to_browser,bundle)
             }
-            onItemChildClickListener = this@HomeFragment.onItemChildClickListener
             if (headerLayoutCount > 0) removeAllHeaderView()
             addHeaderView(banner)
             loadMoreModule.loadMoreView = CustomLoadMoreView()
@@ -125,7 +124,7 @@ class HomeFragment :BaseVmFragment<ArticleViewModel>(){
                 it.showSuccess?.let { list ->
                     homeArticleAdapter.run {
                         if (it.isRefresh) {
-                            replaceData(list.datas)
+                            setList(list.datas)
                             homeRefreshLayout.isRefreshing = false
                         }
                         else addData(list.datas)
