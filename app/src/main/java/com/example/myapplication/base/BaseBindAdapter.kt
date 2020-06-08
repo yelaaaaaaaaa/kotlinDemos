@@ -1,13 +1,11 @@
 package com.example.myapplication.base
 
 import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.module.LoadMoreModule
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.example.myapplication.R
 
 
 /**
@@ -18,8 +16,8 @@ open class BaseBindAdapter<T>(layoutResId: Int, br: Int) : BaseQuickAdapter<T, B
 
     private val _br: Int = br
 
-    override fun convert(helper: BindViewHolder, item: T) {
-        val binding: ViewDataBinding ?= DataBindingUtil.getBinding(helper.itemView)
+    override fun convert(holder: BindViewHolder, item: T) {
+        val binding: ViewDataBinding ?= DataBindingUtil.getBinding(holder.itemView)
         binding?.run {
             setVariable(_br, item)
             executePendingBindings()
